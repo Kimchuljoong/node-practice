@@ -1,11 +1,20 @@
 const express = require('express');
 const app = express();
+app.use(express.urlencoded({extended : true}));
 
 const port = 8080;
 
-app.get("/hello", (req, res) => {
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/index.html");
+});
 
-    res.send("hello");
+app.get("/write", (req, res) => {
+    res.sendFile(__dirname + "/write.html");
+});
+
+app.post("/add", (req, res) => {
+    console.log(req.body);
+    res.send("입력됨");
 });
 
 app.listen(port, () => {
