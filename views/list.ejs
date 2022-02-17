@@ -16,52 +16,21 @@
         <title>node practice</title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/">ToDo APP</a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <%- include("nav.html") %>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/list">List <span class="sr-only">(current)</span></a>
+        <h4 class="ml-2 my-3 text-center">할 일 목록</h4>
+
+        <div class="container">
+            <ul class="list-group mt-5">
+                <% for (let i = 0; i < posts.length; i++){ %>
+                    <li class="list-group-item">
+                        <h4> 할일 제목 : <%= posts[i].title %> </h4>
+                        <p> 할일 마감날짜 : <%= posts[i].date %> </p>
+                        <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>">삭제</button>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/write">Write</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">일시</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <!-- <% for(let i = 0; i < posts.length; i++){ %>
-            <h4>할일 제목: <%= posts[i].title %></h4>
-            <p>할일 마감날짜 : <%= posts[i].date %></p>
-            <button>삭제</button>
-        <% } %> -->
-
-        <h4 class="ml-2 my-3">할 일 목록</h4>
-
-        <ul class="list-group">
-            <% for (let i = 0; i < posts.length; i++){ %>
-                <li class="list-group-item" data-id="<%= posts[i]._id %>">
-                <h4> 할일 제목 : <%= posts[i].title %> </h4>
-                <p> 할일 마감날짜 : <%= posts[i].date %> </p>
-                <button class="delete" data-id="<%= posts[i]._id %>">삭제</button>
-                </li>
-            <% } %>
-        </ul>
+                <% } %>
+            </ul>
+        </div>
 
         <!-- Optional JavaScript; choose one of the two! -->
 
@@ -89,11 +58,11 @@
         ></script>
 
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
         <script>
             $(".delete").click((e) => {
-                
                 let id = e.target.dataset.id;
-                let nowElement = $(this);
+                let nowElement = $(e.currentTarget);
 
                 $.ajax({
                     method : "DELETE",
@@ -102,16 +71,10 @@
                 }).done((result) => {
                     alert("삭제 완료!");
                     nowElement.parent("li").fadeOut();
-
                 }).fail((xhr, textStatus, errorThrown) => {
                     alert("삭제 중 문제가 발생했습니다.");
                 });
             });
-
-            $("list-group-item").click((e) => {
-                
-            });
-
         </script>
     </body>
 </html>
